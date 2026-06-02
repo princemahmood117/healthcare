@@ -1,17 +1,28 @@
 
 		    ----- project analysis algorithm -----
 
--> total users (4): Super_Admin(SA), Admin, Doctor, Patient
+(1) total users (4): Super_Admin(SA), Admin, Doctor, Patient
 
 -> super_admin/admin will be created by 'seeding'
 -> doctor will be created by admin/SA; (only using email-password)
 -> patient will be self registered using email-password/social_login
 -> doctor's cant be login using social_login method
 
-Features: 
+(2) Features: 
 
 -> Speciality : cardiology, Urology, Gastroantology... will be created by admin/SA
 -> Doctor: assign specialities on a doctor while creating.
 
-Relation: Many to Many
---> a single doctor may have multiple specilities OR a single specility of multiple doctors. 
+Relation (speciality and doctor): Many to Many
+--> a single doctor may have multiple specilities OR a single specility of multiple doctors.
+
+--> if many to many relation present, make a 'bridge' of DOCTOR_SPECIALITY which will be one to many relation
+
+(3) Schedule: created by admin/SA
+
+--> hospital will have a fixed schedule. Doctors will maintain their own schedule based on Hospital's schedule.
+--> Doctor's schedule will be created by doctor himself.
+
+Relation (Hospital_Schedule and Doctor_Schedule): Many to Many
+--> make a brige 'DoctorSchedule' (created by doctor himself)
+--> one doctor may have multiple schedules to see patients OR in one fixed schedule there are multiple doctors available.
