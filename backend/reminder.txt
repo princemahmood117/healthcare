@@ -28,4 +28,4 @@ Relation (Hospital_Schedule and Doctor_Schedule): Many to Many
 --> one doctor may have multiple schedules to see patients OR in one fixed schedule there are multiple doctors available.
 
 
-ER Diagram 
+ER Diagram design for patient, doctor and super user
