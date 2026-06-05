@@ -34,6 +34,9 @@ diagram for user done
 diagram for doctor done
 diagram for Schedule done
 diagram for DoctorSchedule done
+diagram for patient done
+diagram for appointment done
+diagram for payment 
 
 
 
