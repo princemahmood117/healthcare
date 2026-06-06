@@ -36,9 +36,11 @@ diagram for Schedule done
 diagram for DoctorSchedule done
 diagram for patient done
 diagram for appointment done
-diagram for payment 
-diagram for reviews
-diagram for patienrHealthData
+diagram for payment done
+diagram for reviews done
+diagram for patienHealthData done
+diagram for MedicalReport done
+diagram for Admin done
 
 
 
