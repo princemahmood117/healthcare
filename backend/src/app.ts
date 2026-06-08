@@ -1,8 +1,9 @@
 import express, { Application, Request, Response } from "express";
-
 import dotenv from 'dotenv';
-import { prisma } from "./app/lib/prisma";
 dotenv.config();
+
+import { IndexRoutes } from "./app/routes";
+
 
 const app:Application = express(); 
 
@@ -13,18 +14,24 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-app.get('/', async(req: Request, res: Response) => {
-  const speciality = await prisma.speciality.create({
-    data: {
-      title: "Cardiology"
-    }
-  })
-  res.status(201).json({
-    success:true,
-    message: "api working",
-    data: speciality
-  });
-});
+app.use('/api/v1', IndexRoutes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Basic route

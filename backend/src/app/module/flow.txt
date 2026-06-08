@@ -1,0 +1,5 @@
+1. user hits the Route first
+
+2. if route is matched, it goes to the Controller to handle req and response
+
+3. then, it goes to the Service to process the database functionality
