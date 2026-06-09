@@ -6,6 +6,8 @@ const router = Router()
 router.post('/', SpecialityController.createSpeciality)
 router.get('/', SpecialityController.getAllSpecialities)
 
+router.delete('/:id', SpecialityController.deleteSpeciality)
+
 
 
 

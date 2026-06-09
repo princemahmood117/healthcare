@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 import { SpecialityService } from "./Speciality.service";
 
+// creaye speciality
 const createSpeciality = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
-    console.log("this is payload:", payload);
 
     const result = await SpecialityService.createSpeciality(payload);
 
@@ -19,8 +19,7 @@ const createSpeciality = async (req: Request, res: Response) => {
 };
 
 // get all specialities
-
-const getAllSpecialities = async (req:Request,res:Response) => {
+const getAllSpecialities = async (req: Request, res: Response) => {
   try {
     const result = await SpecialityService.getAllSpecialities();
 
@@ -30,11 +29,29 @@ const getAllSpecialities = async (req:Request,res:Response) => {
       data: result,
     });
   } catch (error) {
-    console.log("error from createSpeciality:", error);
+    console.log("error from getAllSpeciality:", error);
+  }
+};
+
+// delete specility
+const deleteSpeciality = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    console.log("to be deleted:", id);
+    const result = await SpecialityService.deleteSpeciality(id as string);
+
+    res.status(200).json({
+      success: true,
+      message: `deleted speciality id: ${id}`,
+      data: result,
+    });
+  } catch (error) {
+    console.log("error from deleteSpeciality:", error);
   }
 };
 
 export const SpecialityController = {
   createSpeciality,
-  getAllSpecialities
+  getAllSpecialities,
+  deleteSpeciality,
 };
