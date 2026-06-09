@@ -3,6 +3,12 @@ import { SpecialityController } from "./Speciality.controller";
 
 const router = Router()
 
-router.post('/specialities', SpecialityController.createSpeciality)
+router.post('/', SpecialityController.createSpeciality)
+router.get('/', SpecialityController.getAllSpecialities)
+
+
+
+
+
 
 export const SpecialityRoute = router;
