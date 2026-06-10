@@ -5,7 +5,6 @@ import { SpecialityService } from "./Speciality.service";
 const createSpeciality = async (req: Request, res: Response) => {
   try {
     const payload = req.body;
-
     const result = await SpecialityService.createSpeciality(payload);
 
     res.status(200).json({
@@ -17,6 +16,7 @@ const createSpeciality = async (req: Request, res: Response) => {
     console.log("error from createSpeciality:", error);
   }
 };
+
 
 // get all specialities
 const getAllSpecialities = async (req: Request, res: Response) => {
@@ -33,13 +33,14 @@ const getAllSpecialities = async (req: Request, res: Response) => {
   }
 };
 
+
 // delete specility
 const deleteSpeciality = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     console.log("to be deleted:", id);
     const result = await SpecialityService.deleteSpeciality(id as string);
-
+    
     res.status(200).json({
       success: true,
       message: `deleted speciality id: ${id}`,
@@ -49,6 +50,7 @@ const deleteSpeciality = async (req: Request, res: Response) => {
     console.log("error from deleteSpeciality:", error);
   }
 };
+
 
 export const SpecialityController = {
   createSpeciality,
