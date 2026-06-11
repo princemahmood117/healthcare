@@ -27,6 +27,7 @@ Relation (Hospital_Schedule and Doctor_Schedule): Many to Many
 --> make a brige 'DoctorSchedule' (created by doctor himself)
 --> one doctor may have multiple schedules to see patients OR in one fixed schedule there are multiple doctors available.
 
+=========================================================
 
 ER Diagram design:
 
@@ -41,6 +42,12 @@ diagram for reviews done
 diagram for patienHealthData done
 diagram for MedicalReport done
 diagram for Admin done
+
+=========================================================
+
+
+project setup done
+packages initialized done
 
 
 
