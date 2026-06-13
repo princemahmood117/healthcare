@@ -2,23 +2,10 @@
 import {  Request, Response } from "express";
 import { SpecialityService } from "./Speciality.service";
 import { catchAsync } from "../../shared/catchAsync";
+import { sendReponse } from "../../shared/sendResponse";
 
 
-interface IResponseData <T> {
-  httpStatusCode: number;
-  success: boolean;
-  message: string;
-  data?: T;
-}
 
-const sendReponse = <T>(res:Response, responseData:IResponseData<T>) => {
-  const {httpStatusCode, success, message, data} = responseData;
-  res.status(httpStatusCode).json({
-    success,
-    message,
-    data
-  })
-}
 
 // creaye speciality
 const createSpeciality = catchAsync(
@@ -40,10 +27,11 @@ const createSpeciality = catchAsync(
 const getAllSpecialities = catchAsync(
   async (req:Request, res: Response) => {
     const result = await SpecialityService.getAllSpecialities()
-    res.status(201).json({
-      success: true,
-      message: "fetched all specialities",
-      data: result,
+    sendReponse(res, {
+      httpStatusCode:200,
+      success:true,
+      message:"Fetched all specialities",
+      data:result
     })
   }
 )
@@ -53,10 +41,11 @@ const deleteSpeciality = catchAsync(
   async(req:Request, res:Response) => {
     const {id} = req.params;
     const result = await SpecialityService.deleteSpeciality(id as string)
-    res.status(200).json({
-      success: true,
-      message: `deleted speciality id: ${id}`,
-      data: result,
+    sendReponse(res, {
+      httpStatusCode:200,
+      success:true,
+      message:`Deleted id is ${id}`,
+      data:result
     })
   }
 )
