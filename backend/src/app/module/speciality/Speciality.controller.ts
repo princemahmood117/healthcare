@@ -4,16 +4,33 @@ import { SpecialityService } from "./Speciality.service";
 import { catchAsync } from "../../shared/catchAsync";
 
 
+interface IResponseData <T> {
+  httpStatusCode: number;
+  success: boolean;
+  message: string;
+  data?: T;
+}
+
+const sendReponse = <T>(res:Response, responseData:IResponseData<T>) => {
+  const {httpStatusCode, success, message, data} = responseData;
+  res.status(httpStatusCode).json({
+    success,
+    message,
+    data
+  })
+}
 
 // creaye speciality
 const createSpeciality = catchAsync(
+  // this is the actual controller sent as parameter in "catchAsync"
   async (req:Request, res: Response) => {
     const payload = req.body;
     const result = await SpecialityService.createSpeciality(payload)
-    res.status(201).json({
-      success: true,
-      message: "Speciality Added✅",
-      data: result,
+    sendReponse(res, {
+      httpStatusCode:201,
+      success:true,
+      message: "Speciality created",
+      data:result
     })
   }
 )
