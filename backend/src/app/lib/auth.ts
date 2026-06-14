@@ -25,7 +25,31 @@ export const auth = betterAuth({
                 type: "string",
                 required: true,
                 defaultValue: UserStatus.ACTIVE
-            }
+            },
+
+            needPasswordChange: {
+                type: "boolean",
+                required: true,
+                defaultValue: false
+            },
+
+            isDeleted: {
+                type: "boolean",
+                required: true,
+                defaultValue: false
+            },
+
+            deletedAt : {
+                type: "date",
+                required: false,
+                defaultValue: new Date()
+            },
         }
-    }
+    },
+
+    // trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:5000"],
+
+    // advanced: {
+    //     disableCSRFCheck: true
+    // }
 });
