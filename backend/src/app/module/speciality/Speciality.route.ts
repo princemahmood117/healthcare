@@ -10,7 +10,6 @@ router.get('/', SpecialityController.getAllSpecialities)
 router.delete('/:id', SpecialityController.deleteSpeciality)
 
 
-// thius sis sknkkld
 
 
 

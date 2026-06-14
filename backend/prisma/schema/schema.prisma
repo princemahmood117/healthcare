@@ -5,7 +5,6 @@
 
 generator client {
   provider = "prisma-client"
-  // output   = "../generated/prisma"
   output   = "../../src/generated/prisma"
 }
 
@@ -13,17 +12,3 @@ datasource db {
   provider = "postgresql"
 }
 
-// model Speciality {
-//   id        String   @id @default(uuid(7))
-//   title     String?  @unique @db.VarChar(500)
-//   icon      String?  @db.VarChar(255)
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @default(now())
-
-//   isdeleted Boolean   @default(false)
-//   deletedAt DateTime?
-
-//   @@index([isdeleted], name: "idx_speciality_isDeleted")
-//   @@index([title], name: "idx_speciality_title")
-//   @@map("specialities")
-// }
