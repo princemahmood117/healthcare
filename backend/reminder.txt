@@ -48,6 +48,8 @@ diagram for Admin done
 
 project setup done
 packages initialized done
+better-auth initizlized done
+env.ts file configured
 
 
 
