@@ -51,6 +51,7 @@ packages initialized done
 better-auth initizlized done
 env.ts file configured
 
+today
 
 
 
