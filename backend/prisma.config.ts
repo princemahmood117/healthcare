@@ -2,6 +2,7 @@
 // npm install --save-dev prisma dotenv
 import "dotenv/config";
 import { defineConfig } from "prisma/config";
+import { envVerse } from "./src/config/env";
 
 export default defineConfig({
   // migration will be in this folder for all the '.schema' files
@@ -10,6 +11,6 @@ export default defineConfig({
     path: "prisma/migrations",
   },
   datasource: {
-    url: process.env["DATABASE_URL"],
+    url: envVerse.DATABASE_URL,
   },
 });

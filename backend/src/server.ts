@@ -1,11 +1,11 @@
 import app from "./app";
+import { envVerse } from "./config/env";
 
-const PORT = process.env.PORT;
 
 const bootstrap = () => {
     try {
-        app.listen(PORT, () => {
-        console.log(`server is running on http://localhost:${PORT}`);
+        app.listen(envVerse.PORT, () => {
+        console.log(`server is running on http://localhost:${envVerse.PORT}`);
     })
     } catch (error) {
         console.log('error occures on server', error);
