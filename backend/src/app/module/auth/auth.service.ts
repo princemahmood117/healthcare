@@ -27,6 +27,7 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
         }
 
         // todo: create patient profile after signup 
+        // transaction is used to work on two different models
         // const patient = await prisma.$transaction(async (tx) => {
         
         // })
