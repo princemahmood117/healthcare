@@ -51,7 +51,7 @@ packages initialized done
 better-auth initizlized done
 env.ts file configured
 
-today will be about loading the env variables
+today will be about loading the env variablessssssssss
 
 
 
