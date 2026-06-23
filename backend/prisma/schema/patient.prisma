@@ -1,0 +1,17 @@
+model Patient {
+    id            String    @id @default(uuid(7))
+    name          String
+    email         String    @unique
+    profilePhoto  String?
+    contactNumber String
+    address       String?
+    isDeleted     Boolean   @default(false)
+    createdAt     DateTime  @default(now())
+    updatedAt     DateTime  @updatedAt
+    deletedAt     DateTime?
+
+    // relation
+    userId String @unique
+    // 'user' field-User_Model-@relation(fields->foreign_key, reference-> [id] means user model's primary key)
+    user User @relation(fields: [userId], references: [id])
+}

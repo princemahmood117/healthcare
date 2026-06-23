@@ -3,17 +3,17 @@ import { UserStatus } from "../../../generated/prisma/enums";
 import { auth } from "../../lib/auth";
 
 
+// REGISTER
 interface IRegisterPatientPayload {
     name: string;
     email: string;
     password: string;
 }
-
 const registerPatient = async (payload: IRegisterPatientPayload) => {
 
     try {
-
         const {name, email, password} = payload;
+
         const data = await auth.api.signUpEmail({
             body: {
                 name,
@@ -27,7 +27,6 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
         }
 
         // todo: create patient profile after signup 
-        // transaction is used to work on two different models
         // const patient = await prisma.$transaction(async (tx) => {
         
         // })
@@ -40,6 +39,7 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
     }
 }
 
+// LOGIN
 interface loginUserPayload {
     email: string;
     password: string

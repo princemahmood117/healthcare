@@ -40,6 +40,4 @@ const loadEnvVariables = (): EnvConfig => {
   };
 };
 
-console.log("from env verse:", loadEnvVariables());
-
 export const envVerse = loadEnvVariables();
