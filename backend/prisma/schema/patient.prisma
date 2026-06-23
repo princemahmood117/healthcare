@@ -3,7 +3,7 @@ model Patient {
     name          String
     email         String    @unique
     profilePhoto  String?
-    contactNumber String
+    contactNumber String?
     address       String?
     isDeleted     Boolean   @default(false)
     createdAt     DateTime  @default(now())
@@ -12,6 +12,9 @@ model Patient {
 
     // relation
     userId String @unique
-    // 'user' field-User_Model-@relation(fields->foreign_key, reference-> [id] means user model's primary key)
-    user User @relation(fields: [userId], references: [id])
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+    @@index([email], name: "idx_patient_email")
+    @@index([isDeleted], name: "idx_patient_isDeleted")
+    @@map("patient")
 }
