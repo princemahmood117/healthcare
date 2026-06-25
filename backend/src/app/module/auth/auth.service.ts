@@ -12,7 +12,6 @@ interface IRegisterPatientPayload {
 }
 const registerPatient = async (payload: IRegisterPatientPayload) => {
 
-    try {
         const {name, email, password} = payload;
 
         const data = await auth.api.signUpEmail({
@@ -21,15 +20,17 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
                 email,
                 password,
             }
-        })        
+        })     
+        console.log('data:', data);   
 
         if(!data.user) {
             throw new Error("failed to create patient!")
         }
 
-        // todo: create patient profile within signup 
-        const patient = await prisma.$transaction(async (tx) => {
-            const patientTx = await tx.patient.create({
+        // create patient profile while signup 
+        try {
+            const patient = await prisma.$transaction(async (tx) => {
+                const patientTx = await tx.patient.create({
                 data: {
                     userId: data.user.id,
                     name: payload.name,
@@ -40,17 +41,24 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
         
         })
 
-        console.log('data:', data);
         return {
             ...data,
             patient
         };
-
-    } catch (error) {
-        console.log(error);
+        } catch (error) {
+            console.log("transaction error:", error);
+            await prisma.user.delete({
+                where: {
+                    id:data.user.id
+                }
+            })
+            throw error
+        }
     }
-}
 
+
+
+    
 // LOGIN
 interface loginUserPayload {
     email: string;

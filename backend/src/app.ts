@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { IndexRoutes } from "./app/routes";
+import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
 
 
 const app:Application = express(); 
@@ -16,6 +17,10 @@ app.use(express.json());
 
 app.use('/api/v1', IndexRoutes)
 
+
+
+// GLOBAL ERROR HANDLER
+app.use(globalErrorHandler)
 
 
 
