@@ -4,8 +4,8 @@ import { AuthService } from "./auth.service";
 import { sendReponse } from "../../shared/sendResponse";
 import status from "http-status";
 
-const registerPatient = catchAsync(
-    async(req:Request, res:Response) => {
+// catchAsync is called using a function as parameter
+const registerPatient = catchAsync (async(req:Request, res:Response) => {
         const payload = req.body;   
         
         console.log("payload: ", payload);
@@ -23,7 +23,7 @@ const registerPatient = catchAsync(
 )
 
 
-const loginUser = catchAsync(
+const loginUser = catchAsync (
     async (req:Request, res:Response) => {
         const payload = req.body;
         const result = await AuthService.loginUser(payload)

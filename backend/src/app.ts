@@ -4,6 +4,7 @@ dotenv.config();
 
 import { IndexRoutes } from "./app/routes";
 import { globalErrorHandler } from "./app/middleware/globalErrorHandler";
+import { notFound } from "./app/middleware/notFound";
 
 
 const app:Application = express(); 
@@ -21,6 +22,7 @@ app.use('/api/v1', IndexRoutes)
 
 // GLOBAL ERROR HANDLER
 app.use(globalErrorHandler)
+app.use(notFound)
 
 
 
