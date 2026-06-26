@@ -148,6 +148,6 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
 
 
 
-export const doctorService = {
+export const userService = {
     createDoctor
 }
