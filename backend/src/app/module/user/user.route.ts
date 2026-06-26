@@ -4,6 +4,6 @@ import { userController } from "./user.controller";
 
 const router = Router()
 
-router.post('/create-dorcor', userController.createDoctor)
+router.post('/create-doctor', userController.createDoctor)
 
 export const UserRoutes = router;
