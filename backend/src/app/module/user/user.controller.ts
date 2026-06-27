@@ -7,8 +7,6 @@ import status from "http-status";
 const createDoctor = catchAsync(async (req:Request, res:Response) => {
     const payload = req.body;
 
-    console.log('payload from create doctor: ', payload);
-
     const result = await userService.createDoctor(payload)
 
     sendReponse(res, {

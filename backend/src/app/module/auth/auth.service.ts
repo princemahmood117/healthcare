@@ -14,6 +14,7 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
 
         const {name, email, password} = payload;
 
+        //? FIRST CREATE A USER. then create the patient 
         const data = await auth.api.signUpEmail({
             body: {
                 name,
@@ -27,7 +28,7 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
             throw new Error("failed to create patient!")
         }
 
-        // create patient profile while signup 
+        // create patient profile while signup (transaction)
         try {
             const patient = await prisma.$transaction(async (tx) => {
                 const patientTx = await tx.patient.create({
