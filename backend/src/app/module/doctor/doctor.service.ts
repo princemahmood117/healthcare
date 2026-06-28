@@ -42,3 +42,8 @@ export const doctorService = {
     getAllDoctors,
     getDoctorByID
 }
+
+
+
+
+// zod validation
