@@ -14,7 +14,7 @@ const createDoctorZodSchema = z.object({
 
     contactNumber: z.string("Required!").min(11).max(14),
 
-    address: z.string().min(20).max(100).optional(),
+    address: z.string().min(10).max(100).optional(),
 
     registrationNumber: z.string(),
 
@@ -24,28 +24,29 @@ const createDoctorZodSchema = z.object({
 
     appointmentFee: z.number('must be number').nonnegative('cannot be negative value!'),
 
-    qualification: z.string('qualification must be string').min(30).max(60),
+    qualification: z.string('qualification must be string').min(2).max(60),
 
-    currentWorkingPLace: z.string('current working place must be string').min(30).max(60),
+    currentWorkingPLace: z.string('current working place must be string').min(10).max(60),
 
-    designation: z.string('designation must be string').min(10).max(100),
+    designation: z.string('designation must be string').min(5).max(100),
+
+  }),
 
     specialities: z.array(z.uuid()).min(1, "atleast one speciality is required!"),
-
-
-  })
 });
 
 const router = Router();
 
 router.post("/create-doctor", (req:Request, res:Response, next:NextFunction) => {
+    
     const parsedResult = createDoctorZodSchema.safeParse(req.body)
     if(!parsedResult.success) {
         next(parsedResult.error)
     }
-    // sanitizing the data
-    req.body = parsedResult.data
-
+    // sanitizing the data by removing invalid fields
+    req.body = parsedResult.data;
+    
+    next()
 
 }, userController.createDoctor);
 
