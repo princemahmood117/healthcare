@@ -51,7 +51,9 @@ packages initialized done
 better-auth initizlized done
 env.ts file configured
 
-today will be about loading the env variablessssssssss
+zod is required for:
+1. create/post something
+2. put/patch/update something
 
 
 
