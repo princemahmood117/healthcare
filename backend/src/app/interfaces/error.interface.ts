@@ -1,12 +1,16 @@
+
+// interface for zod error
+export interface TErrorSources {
+  path: string;
+  message: string
+}
+
+
+
 export interface TErrorResponse {
+    statusCode?: number
     success: boolean,
     message: string,
     errorSource?: TErrorSources[]
     error?: unknown
-}
-
-
-export interface TErrorSources {
-  path: string;
-  message: string
 }
