@@ -30,7 +30,7 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
     //! VALIDATE SPECIALITIES from database based on existing ID
 
 
-    
+    // check if the user already exists
     const userExist = await prisma.user.findUnique({
         where : {
             email: payload?.doctor?.email
@@ -41,6 +41,7 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
         // throw new Error(`User with this email already exists!`)
         throw new AppError(status.CONFLICT, `User with this email already exists!`)
     }
+    // check if the user already exists. If not then below logic...
 
 
 
@@ -139,7 +140,6 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
                         }
                     }
 
-
                 }
             })
             //? Fetch Individual Complete Doctor Information
@@ -158,12 +158,7 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
         })
     }
 
-
 }
-
-
-
-
 
 export const userService = {
     createDoctor
