@@ -5,6 +5,7 @@ import status from "http-status";
 import z from "zod";
 import { TErrorResponse, TErrorSources } from "../interfaces/error.interface";
 import { handleZodError } from "../errorHelpers/handleZodError";
+import AppError from "../errorHelpers/AppError";
 
 
 
@@ -36,6 +37,14 @@ export const globalErrorHandler = (err: Error, req: Request, res: Response, next
   
     errorSource = [...simplifiedError.errorSource!]
 
+  } else if (err instanceof AppError){
+    statusCode = err.statusCode;
+    message = err.message;
+    stack = err.stack;
+    errorSource = [{
+      path: "",
+      message: err.message
+    }]
   }
   
   // javascript native error handle
@@ -43,6 +52,10 @@ export const globalErrorHandler = (err: Error, req: Request, res: Response, next
     statusCode = status.INTERNAL_SERVER_ERROR;
     message = err.message;
     stack = err.stack;    
+    errorSource = [{
+      path: "",
+      message: err.message
+    }]
   }
 
 

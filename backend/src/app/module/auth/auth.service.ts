@@ -1,5 +1,7 @@
 
+import status from "http-status";
 import { UserStatus } from "../../../generated/prisma/enums";
+import AppError from "../../errorHelpers/AppError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 
@@ -25,7 +27,9 @@ const registerPatient = async (payload: IRegisterPatientPayload) => {
         console.log('data:', data);   
 
         if(!data.user) {
-            throw new Error("failed to create patient!")
+            // throw new Error("failed to create patient!")
+            throw new AppError(status.BAD_REQUEST, "failed to creare patient!")
+            
         }
 
         // create patient profile while signup (transaction)
@@ -78,11 +82,13 @@ const loginUser = async (payload: loginUserPayload) => {
     })
 
     if(data.user.status === UserStatus.BLOCKED) {
-        throw new Error("User is blocked!")
+        // throw new Error("User is blocked!")
+        throw new AppError(status.FORBIDDEN, "User is blocked")
     }
 
     else if(data.user.isDeleted || data.user.status === UserStatus.DELETED ) {
-        throw new Error("User is deleted!")
+        // throw new Error("User is deleted!")
+        throw new AppError(status.NOT_FOUND, "User is deleted!")
     }
     
     return data;

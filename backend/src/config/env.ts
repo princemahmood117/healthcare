@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+import AppError from "../app/errorHelpers/AppError";
+import status from "http-status";
 dotenv.config();
 
 interface EnvConfig {
@@ -23,7 +25,8 @@ const loadEnvVariables = (): EnvConfig => {
 
   envVariableCheck.forEach((variable) => {
     if(!process.env[variable]) {
-        throw new Error('Varaible not set!')
+        // throw new Error('Varaible not set!')
+        throw new AppError(status.INTERNAL_SERVER_ERROR, "Varaible not set!")
     }
   })
 

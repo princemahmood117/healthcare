@@ -1,4 +1,6 @@
+import status from "http-status";
 import { Role, Speciality } from "../../../generated/prisma/client";
+import AppError from "../../errorHelpers/AppError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { ICreateDoctorPayload } from "./user.interface";
@@ -19,7 +21,8 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
         });        
 
         if(!speciality) {
-            throw new Error(`Speciality ${specialityId} not found!`)
+            // throw new Error(`Speciality ${specialityId} not found!`)
+            throw new AppError(status.NOT_FOUND, `Speciality ${specialityId} not found!`)
         }
         // stores the found specialities in an array
         specialities.push(speciality)
@@ -35,7 +38,8 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
     }) 
 
     if(userExist) {
-        throw new Error(`User with this email already exists!`)
+        // throw new Error(`User with this email already exists!`)
+        throw new AppError(status.CONFLICT, `User with this email already exists!`)
     }
 
 
