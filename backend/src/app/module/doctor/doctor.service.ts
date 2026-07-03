@@ -25,11 +25,15 @@ const getDoctorByID = async (id:string) => {
             isDeleted: false,
         },
         include: {
+            user: true,
+
             specialities: {
                 include: {
                     speciality: true
                 }
-            }
+            },
+
+            ap
         }
     })
     return doctor
