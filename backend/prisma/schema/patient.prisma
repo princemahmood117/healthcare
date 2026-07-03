@@ -17,4 +17,9 @@ model Patient {
     @@index([email], name: "idx_patient_email")
     @@index([isDeleted], name: "idx_patient_isDeleted")
     @@map("patient")
+    appointments Appointment[]
+    prescriptions Prescription[]
+    reviews Review[]
+    medicalReports MedicalReport[]
+    patientHealthDatas PatientHealthData[]
 }
