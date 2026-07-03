@@ -49,7 +49,7 @@ const loginUser = catchAsync (
                 ...rest,
                 token,
                 accessToken,
-                refreshToken,
+                refreshToken,                
             },            
         })
     }

@@ -3,6 +3,12 @@
 
 import jwt, { JwtPayload, SignOptions } from "jsonwebtoken"
 
+export interface IJwtPayload extends JwtPayload {
+  role: "ADMIN" | "USER";  
+  userId: string;          
+  email: string;
+}
+
 
 const createToken = (payload:JwtPayload, secret:string, {expiresIn}:SignOptions) => {
 
@@ -16,7 +22,7 @@ return token;
 const verifyToken = (token:string, secret:string) => {
 
     try {
-        const verifyToken = jwt.verify(token, secret)
+        const verifyToken = jwt.verify(token, secret) as IJwtPayload
         return {
             success: true,
             data: verifyToken
