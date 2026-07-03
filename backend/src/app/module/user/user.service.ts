@@ -139,7 +139,6 @@ const createDoctor = async (payload:ICreateDoctorPayload) => {
                             }
                         }
                     }
-
                 }
             })
             //? Fetch Individual Complete Doctor Information
