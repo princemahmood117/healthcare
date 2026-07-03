@@ -7,6 +7,9 @@ import { UserStatus } from "../../../generated/prisma/enums"
 const getAllDoctors = async () => {
 
     const doctors = await prisma.doctor.findMany({
+        where: {
+            isDeleted:false
+        },
         include: {
             user: true,
             specialities: {
@@ -122,8 +125,8 @@ const updateDoctor = async (id:string, payload:IUpdateDoctorPayload) => {
 }
 
 
-// soft delete
 
+// soft delete
 const deleteDoctor = async (id:string) => {
 
     const isDoctorExist = await prisma.doctor.findUnique({

@@ -11,6 +11,8 @@ const router = Router();
 
 router.post("/create-doctor", validateRequest(createDoctorZodSchema) ,userController.createDoctor);
 
+
+
 router.post('/create-admin', checkAuth(Role.ADMIN, Role.SUPER_ADMIN) ,userController.createAdmin)
 
 export const UserRoutes = router;
