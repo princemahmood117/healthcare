@@ -54,7 +54,7 @@ env.ts file configured
 zod is required for:
 1. create/post something
 2. put/patch/update something
-
+rone
 
 
 
