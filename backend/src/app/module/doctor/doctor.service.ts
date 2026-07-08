@@ -73,6 +73,7 @@ const updateDoctor = async (id:string, payload:IUpdateDoctorPayload) => {
         throw new AppError(status.NOT_FOUND, "Doctor not found");
     }
 
+    
     const {doctor:doctorData, specialities} = payload;
     
     await prisma.$transaction(async(tx) => {

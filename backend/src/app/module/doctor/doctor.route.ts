@@ -9,9 +9,7 @@ const router = Router()
 
 router.get('/', doctorController.getAllDoctors)
 
-
 router.get('/:id', doctorController.getDoctorByID)
-
 
 router.patch('/:id', checkAuth(Role.ADMIN, Role.SUPER_ADMIN), validateRequest(updateDoctorZodSchema) ,doctorController.updateDoctor)
 

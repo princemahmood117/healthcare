@@ -20,3 +20,7 @@ router.delete('/:id', checkAuth(Role.SUPER_ADMIN),adminController.deleteAdmin)
 
 
 export const AdminRoutes = router;
+
+
+
+// task completed
