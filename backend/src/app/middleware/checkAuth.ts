@@ -68,6 +68,7 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
                 }
 
 
+                // custom request
                 req.user = {
                     userId: user?.id,
                     role: user?.role,
