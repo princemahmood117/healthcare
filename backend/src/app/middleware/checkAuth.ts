@@ -24,7 +24,7 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
                 where: {
                     token: sessionToken,
                     expiresAt: {
-                        gt: new Date()
+                        gt: new Date()  // session is greater than the current time
                     }
                 },
                 include: {
@@ -40,11 +40,13 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
                 const expiresAt = new Date(sessionExists.expiresAt)
                 const createdAt = new Date(sessionExists.createdAt)
 
-                const sessionLifeTime = expiresAt.getTime() - createdAt.getTime()
+                const sessionLifeTime = expiresAt.getTime() - createdAt.getTime()  // total duration of the session in milliseconds (expiry time minus creation time)
 
-                const timeRemaining = expiresAt.getTime() - now.getTime();
+                const timeRemaining = expiresAt.getTime() - now.getTime();  // how many milliseconds are currently left before the session expires
+                
+                const parcentRemainig = (timeRemaining / sessionLifeTime) * 100; 
 
-                const parcentRemainig = (timeRemaining - sessionLifeTime) / 100;
+
 
                 if(parcentRemainig < 20) {
                     res.setHeader("X-Session-Refresh", 'true');
@@ -65,6 +67,13 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
                     throw new AppError(status.FORBIDDEN, 'Forbidden access!')
                 }
 
+
+                req.user = {
+                    userId: user?.id,
+                    role: user?.role,
+                    email: user?.email
+                }
+
             }
 
 
@@ -77,6 +86,7 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
 
         }
 
+        // again checks the access token
         const accessToken = cookieUtils.getCookie(req, "accessToken");
         if(!accessToken) {
             throw new AppError(status.UNAUTHORIZED, 'Unauthorized access!')
@@ -91,12 +101,14 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
         if(authRoles.length > 0 && !authRoles.includes(verifiedToken.data!.role as Role)) {
             throw new AppError(status.FORBIDDEN, 'Forbidden! Role not matched')
         }
+
+
+
+
+
         next()
         
      } catch (error:any) {
         next(error)
      }
 }
-
-
-// understanding the checkAuth middleware
