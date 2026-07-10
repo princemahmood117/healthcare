@@ -18,17 +18,17 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
             throw new AppError(status.UNAUTHORIZED, "unauthorized from middleware, no session found!")
         }
 
-        // if the session exists
+        // check if the session exists in database
         if(sessionToken) {
             const sessionExists = await prisma.session.findFirst({
                 where: {
-                    token:sessionToken,
+                    token: sessionToken,
                     expiresAt: {
                         gt: new Date()
                     }
                 },
                 include: {
-                    user: true,
+                    user: true,   // pulls the related user record
                 }
                 
             })
@@ -97,3 +97,6 @@ export const checkAuth = (...authRoles: Role[]) => async (req:Request, res:Respo
         next(error)
      }
 }
+
+
+// understanding the checkAuth middleware
