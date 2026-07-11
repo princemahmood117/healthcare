@@ -5,7 +5,7 @@ import AppError from "../../errorHelpers/AppError";
 import { auth } from "../../lib/auth";
 import { prisma } from "../../lib/prisma";
 import { tokenUtiles } from "../../utils/token";
-import { IRegisterPatientPayload, loginUserPayload } from "./auth.interface";
+import { IChangePasswordChange, IRegisterPatientPayload, loginUserPayload } from "./auth.interface";
 import { IRequestUser } from "../../interfaces/requestUser.interface";
 import { jwtUtils } from "../../utils/jwt";
 import { envVerse } from "../../../config/env";
@@ -239,9 +239,48 @@ const getNewToken = async(refreshToken:string, sessionToken:string ) => {
     }
 }
 
+
+
+const changePassworrd = async(payload:IChangePasswordChange, sessionToken:string) => {
+
+    const session = await auth.api.getSession({
+        headers: new Headers({
+            Authorization : `Bearer ${sessionToken}`
+        })
+    })
+
+    if(!session) {
+        throw new AppError(status.UNAUTHORIZED, "Session not found for password change!")
+    } 
+
+    const {currentPassword, newPassword} = payload;
+
+    const result = await auth.api.changePassword({
+        body: {
+            currentPassword,
+            newPassword,
+            revokeOtherSessions: true
+        },
+        headers: new Headers({
+            Authorization : `Bearer ${sessionToken}`
+        })
+    })
+
+
+    return result
+
+}
+
+
+
+
+
+
+
 export const AuthService = {
     registerPatient,
     loginUser,
     getMe,
-    getNewToken
+    getNewToken,
+    changePassworrd
 }

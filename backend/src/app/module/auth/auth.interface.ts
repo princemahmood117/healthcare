@@ -13,3 +13,11 @@ export interface loginUserPayload {
     email: string;
     password: string
 }
+
+
+// CHANGE-PASSWORD
+export interface IChangePasswordChange {
+
+    currentPassword: string;
+    newPassword : string;
+}
