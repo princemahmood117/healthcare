@@ -48,20 +48,26 @@ export const auth = betterAuth({
         }
     },
 
-    session: {
-        expiresIn:  60*60*60*24,   // for 1d,
+    // session: {
+    //     expiresIn:  60*60*60*24,   // for 1d,
 
-        updateAge: 60*60*60*24,   // for 1d,
+    //     updateAge: 60*60*60*24,   // for 1d,
 
-        cookieCache: {
-            enabled: true,
-            maxAge: 60*60*60*24,   // for 1d   
-        }
-    }
-
-    // trustedOrigins: [process.env.BETTER_AUTH_URL || "http://localhost:5000"],
-
-    // advanced: {
-    //     disableCSRFCheck: true
+    //     cookieCache: {
+    //         enabled: true,
+    //         maxAge: 60*60*60*24,   // for 1d   
+    //     }
     // }
+
+
+    session: {
+    expiresIn: 60 * 60 * 24, // 1 day
+    updateAge: 60 * 60 * 24, // 1 day
+
+    cookieCache: {
+        enabled: true,
+        maxAge: 60 * 60 * 24, // 1 day
+    }
+}
+
 });

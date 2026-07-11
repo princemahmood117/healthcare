@@ -200,23 +200,23 @@ const getNewToken = async(refreshToken:string, sessionToken:string ) => {
 
     // new access token and refresh token generate part
     const newAccessToken = tokenUtiles.getAccessToken({
-        userId: data.user.id,
-        role: data.user.role,
-        name: data.user.name,
-        email:data.user.email,
-        status: data.user.status,
-        isDeleted: data.user.isDeleted,
-        emailVerified: data.user.emailVerified
+        userId: data.userId,
+        role: data.role,
+        name: data.name,
+        email:data.email,
+        status: data.status,
+        isDeleted: data.isDeleted,
+        emailVerified: data.emailVerified
     })
 
     const newRefreshToken = tokenUtiles.getRefreshToken({
-        userId: data.user.id,
-        role: data.user.role,
-        name: data.user.name,
-        email:data.user.email,
-        status: data.user.status,
-        isDeleted: data.user.isDeleted,
-        emailVerified: data.user.emailVerified
+        userId: data.id,
+        role: data.role,
+        name: data.name,
+        email:data.email,
+        status: data.status,
+        isDeleted: data.isDeleted,
+        emailVerified: data.emailVerified
     })
 
 
@@ -226,7 +226,7 @@ const getNewToken = async(refreshToken:string, sessionToken:string ) => {
         },
         data : {
             token : sessionToken,
-            expiresAt : new Date(Date.now() + 60 * 60 * 60 * 24 * 1000),   // increase the session by 1 day and converts to miliseconds
+            expiresAt : new Date(Date.now() + 60 * 60 * 24 * 1000),   // increase the session by 1 day and converts to miliseconds
             updatedAt: new Date(),
         }
 

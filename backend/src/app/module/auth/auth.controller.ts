@@ -86,9 +86,9 @@ const getNewToken = catchAsync(async (req:Request, res:Response) => {
 
     const result = await AuthService.getNewToken(refreshToken, betterAuthSessionToken);
 
-    const {accessToken, refreshToken:newAccessToken, sessionToken} = result;
+    const {accessToken, refreshToken:newRefreshToken, sessionToken} = result;
     tokenUtiles.setAccessTokenCookie(res, accessToken);
-    tokenUtiles.setRefreshTokenCookie(res, newAccessToken);
+    tokenUtiles.setRefreshTokenCookie(res, newRefreshToken);
     tokenUtiles.setBetterAuthSessionCookie(res, sessionToken);
 
 
@@ -97,8 +97,8 @@ const getNewToken = catchAsync(async (req:Request, res:Response) => {
         success: true,
         message: "User profile fetched successfully!",
         data: {
-            accessToken,
-            refreshToken,
+            accessToken,            
+            refreshToken : newRefreshToken,
             sessionToken
         }            
         })
