@@ -267,10 +267,48 @@ const changePassworrd = async(payload:IChangePasswordChange, sessionToken:string
     })
 
 
-    return result
+    const accessToken = tokenUtiles.getAccessToken({
+        userId: session.user.id,
+        role: session.user.role,
+        name: session.user.name,
+        email:session.user.email,
+        status: session.user.status,
+        isDeleted: session.user.isDeleted,
+        emailVerified: session.user.emailVerified
+    })
+
+    const refreshToken = tokenUtiles.getRefreshToken({
+        userId: session.user.id,
+        role: session.user.role,
+        name: session.user.name,
+        email:session.user.email,
+        status: session.user.status,
+        isDeleted: session.user.isDeleted,
+        emailVerified: session.user.emailVerified
+    })
+
+
+    return {
+        ...result,
+        accessToken,
+        refreshToken,
+    
+    }
 
 }
 
+
+
+const logoutUser = async (sessionToken:string) => {
+
+    const result = await auth.api.signOut({
+        headers: new Headers({
+            Authorization: `Bearer ${sessionToken}`
+        })
+    })
+
+    return result;
+}
 
 
 
@@ -282,5 +320,6 @@ export const AuthService = {
     loginUser,
     getMe,
     getNewToken,
-    changePassworrd
+    changePassworrd,
+    logoutUser
 }

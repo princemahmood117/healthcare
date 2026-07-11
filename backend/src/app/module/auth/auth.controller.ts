@@ -5,6 +5,7 @@ import { sendReponse } from "../../shared/sendResponse";
 import status from "http-status";
 import { tokenUtiles } from "../../utils/token";
 import AppError from "../../errorHelpers/AppError";
+import { cookieUtils } from "../../utils/cookie";
 
 // catchAsync is called using a function as parameter
 const registerPatient = catchAsync (async(req:Request, res:Response) => {
@@ -112,6 +113,12 @@ const changePassword = catchAsync(async(req:Request, res:Response) => {
     const payload = req.body;
     const betterAuthSessionToken = req.cookies["better-auth.session_token"];
     const result = await AuthService.changePassworrd(payload, betterAuthSessionToken)
+
+    //  after the password change, new tokens should be inserted to cookie
+    const {accessToken, refreshToken, token} = result;
+    tokenUtiles.setAccessTokenCookie(res, accessToken);
+    tokenUtiles.setRefreshTokenCookie(res, refreshToken);
+    tokenUtiles.setBetterAuthSessionCookie(res, token as string)
   
     sendReponse(res, {
         httpStatusCode: status.OK,
@@ -123,6 +130,36 @@ const changePassword = catchAsync(async(req:Request, res:Response) => {
 
 
 
+const logoutUser = catchAsync(async(req:Request, res:Response) => {
+
+    const betterAuthSessionToken = req.cookies["better-auth.session_token"];
+
+    const result = await AuthService.logoutUser(betterAuthSessionToken);
+
+    cookieUtils.clearCookie(res, 'accessToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: true,
+    })
+    cookieUtils.clearCookie(res, 'refreshToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: true,
+    })
+    cookieUtils.clearCookie(res, 'better-auth.session_token', {
+        httpOnly: true,
+        secure: true,
+        sameSite: true,
+    })
+
+     sendReponse(res, {
+        httpStatusCode: status.OK,
+        success: true,
+        message: "User Logged Out successfully!",
+        data: result   
+        })    
+})
+
 
 
 
@@ -133,5 +170,6 @@ export const AuthController = {
     loginUser,
     getMe,
     getNewToken,
-    changePassword
+    changePassword,
+    logoutUser
 }
