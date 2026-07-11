@@ -61,6 +61,9 @@ const updateAdmin = async(id:string, payload:IUpdateAdminPayload) => {
 } 
 
 
+
+
+
 // soft delete admin
 const deleteAdmin = async (id:string, user:IRequestUser) => {
 
@@ -75,6 +78,7 @@ const deleteAdmin = async (id:string, user:IRequestUser) => {
     }
 
 
+    // current admin can't delete himself
     if(isAdminExist.id === user.userId){
         throw new AppError(status.BAD_REQUEST, "You cannot delete yourself");
     }

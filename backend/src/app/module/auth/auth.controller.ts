@@ -4,6 +4,7 @@ import { AuthService } from "./auth.service";
 import { sendReponse } from "../../shared/sendResponse";
 import status from "http-status";
 import { tokenUtiles } from "../../utils/token";
+import AppError from "../../errorHelpers/AppError";
 
 // catchAsync is called using a function as parameter
 const registerPatient = catchAsync (async(req:Request, res:Response) => {
@@ -33,7 +34,6 @@ const loginUser = catchAsync (
     async (req:Request, res:Response) => {
         const payload = req.body;
         const result = await AuthService.loginUser(payload)
-        console.log('result:', result);
 
         const {accessToken, refreshToken, token, ...rest} = result;
 
@@ -70,11 +70,44 @@ const getMe = catchAsync(
             data: result            
         })
     }
-)
+);
+
+
+
+
+const getNewToken = catchAsync(async (req:Request, res:Response) => {
+
+    const refreshToken = req.cookies.refreshToken;
+    const betterAuthSessionToken = req.cookies["better-auth.session_token"];
+
+    if(!refreshToken) {
+        throw new AppError(status.UNAUTHORIZED, "Refresh-Token is missing!")
+    }
+
+    const result = await AuthService.getNewToken(refreshToken, betterAuthSessionToken);
+
+    const {accessToken, refreshToken:newAccessToken, sessionToken} = result;
+    tokenUtiles.setAccessTokenCookie(res, accessToken);
+    tokenUtiles.setRefreshTokenCookie(res, newAccessToken);
+    tokenUtiles.setBetterAuthSessionCookie(res, sessionToken);
+
+
+    sendReponse(res, {
+        httpStatusCode: status.OK,
+        success: true,
+        message: "User profile fetched successfully!",
+        data: {
+            accessToken,
+            refreshToken,
+            sessionToken
+        }            
+        })
+})
 
 
 export const AuthController = {
     registerPatient,
     loginUser,
-    getMe
+    getMe,
+    getNewToken
 }

@@ -13,8 +13,10 @@ router.get('/' ,adminController.getAllAdmins)
 router.get('/:id', checkAuth(Role.ADMIN, Role.SUPER_ADMIN),adminController.getAdminByID);
 
 
-router.patch('/:id', checkAuth(Role.SUPER_ADMIN), validateRequest(updateAdminZodSchema),adminController.updateAdmin);
 
+// only super admin can update the Admin_Role and Delete the admin
+
+router.patch('/:id', checkAuth(Role.SUPER_ADMIN), validateRequest(updateAdminZodSchema),adminController.updateAdmin);
 
 router.delete('/:id', checkAuth(Role.SUPER_ADMIN),adminController.deleteAdmin)
 

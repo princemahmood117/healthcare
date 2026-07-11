@@ -24,9 +24,7 @@ const getRefreshToken = (payload:JwtPayload) => {
 
 const setAccessTokenCookie = (res:Response, token:string) => {
 
-    // const tokenMaxAge = ms(envVerse.ACCESS_TOKEN_EXPIRES_IN as StringValue) // ms takes number and returns a string
-
-    cookieUtils.setCookie(res,"accessToken", token, {
+    cookieUtils.setCookie(res, "accessToken", token, {
         httpOnly: true,
         sameSite:"none",
         secure:true,
@@ -40,8 +38,6 @@ const setAccessTokenCookie = (res:Response, token:string) => {
 
 const setRefreshTokenCookie = (res:Response, token:string) => {
 
-    // const tokenMaxAge = ms(envVerse.REFRESH_TOKEN_EXPIRES_IN as StringValue)
-
     cookieUtils.setCookie(res, "refreshToken", token, {
         httpOnly: true,
         sameSite: "none",
@@ -53,7 +49,7 @@ const setRefreshTokenCookie = (res:Response, token:string) => {
 
 
 const setBetterAuthSessionCookie = (res:Response, token:string) => {
-        // const tokenMaxAge = ms(envVerse.REFRESH_TOKEN_EXPIRES_IN as StringValue)
+
         cookieUtils.setCookie(res, "better-auth.session_token", token, {
         httpOnly: true,
         sameSite: "none",
@@ -63,6 +59,7 @@ const setBetterAuthSessionCookie = (res:Response, token:string) => {
     })
 }
 
+// better-auth-session-token AND access-token will have same to same 'MaxAge'
 
 
 

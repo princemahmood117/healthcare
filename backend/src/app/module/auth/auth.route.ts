@@ -10,7 +10,9 @@ router.post('/register', AuthController.registerPatient)
 router.post('/login', AuthController.loginUser)
 
 
-router.get('/me', checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.ADMIN, Role.PATIENT), AuthController.getMe)
+router.get('/me', checkAuth(Role.ADMIN, Role.SUPER_ADMIN, Role.DOCTOR, Role.PATIENT), AuthController.getMe)
+
+router.get('/refresh-token', AuthController.getNewToken)
 
 
 
