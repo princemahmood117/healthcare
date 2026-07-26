@@ -31,7 +31,7 @@ interface sendEmailOptions {
         fileName: string,
         content: Buffer | string,
         contentType: string,
-    } 
+    }[]
 }
 
 export const sendEmail = async ({subject, templateData, templateName, to, attachments} : sendEmailOptions) => {
@@ -42,9 +42,20 @@ export const sendEmail = async ({subject, templateData, templateName, to, attach
 
     const html = await ejs.renderFile(templatePath, templateData);
 
+
     const info = await transporter.sendMail({
-        from : envVerse.EMAIL_SENDER.SMTP_PASS
+        from : envVerse.EMAIL_SENDER.SMTP_PASS,
+        to : to,
+        subject : subject,
+        html : html,
+        attachments : attachments?.map((att) => ({
+            filename : att.fileName,
+            content : att.content,
+            contentType : att.contentType,
+        }))
     })
+
+    console.log(`Email sent to : ${to} : ${info.messageId} `);
 
     } catch (error:any) {
         console.log("Email sending error", error.message);
