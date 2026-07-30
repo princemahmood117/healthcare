@@ -10,14 +10,13 @@ import ejs from "ejs"
 const transporter = nodemailer.createTransport({
 
     host: envVerse.EMAIL_SENDER.SMTP_HOST,
-    
     secure : true,
     
     auth : {
-        user : envVerse.EMAIL_SENDER.SMTP_HOST,
+        user : envVerse.EMAIL_SENDER.SMTP_USER,
         pass : envVerse.EMAIL_SENDER.SMTP_PASS
     },
-    
+        
     port : Number(envVerse.EMAIL_SENDER.SMTP_PORT),
 })
 
@@ -34,7 +33,9 @@ interface sendEmailOptions {
     }[]
 }
 
-export const sendEmail = async ({subject, templateData, templateName, to, attachments} : sendEmailOptions) => {
+
+
+export const sendEmail = async ({to, subject, templateData, templateName, attachments} : sendEmailOptions) => {
 
     try {
         
