@@ -335,6 +335,74 @@ const verifyEmail = async(email: string, otp : string) => {
 
 
 
+const forgetPassword = async(email: string) => {
+
+    const isUserExist = await prisma.user.findUnique({
+        where : {
+            email
+        }
+    })
+
+    if(!isUserExist) {
+        throw new AppError(status.NOT_FOUND, "User not found!")
+    }
+
+    if(!isUserExist.emailVerified) {
+        throw new AppError(status.BAD_REQUEST, "User not Verified!")
+    }
+
+    if(isUserExist.isDeleted || isUserExist.status === UserStatus.DELETED) {
+        throw new AppError(status.NOT_FOUND, "User may be deleted!")
+    }
+
+    await auth.api.requestPasswordResetEmailOTP({
+        body : {
+            email
+        }
+    })
+}
+
+
+
+const resetPassword = async (email: string, otp: string, newPassword: string) => {
+
+    const isUserExist = await prisma.user.findUnique({
+        where : {
+            email
+        }
+    })
+
+     if(!isUserExist) {
+        throw new AppError(status.NOT_FOUND, "User not found!")
+    }
+
+    if(!isUserExist.emailVerified) {
+        throw new AppError(status.BAD_REQUEST, "User not Verified!")
+    }
+
+    if(isUserExist.isDeleted || isUserExist.status === UserStatus.DELETED) {
+        throw new AppError(status.NOT_FOUND, "User may be deleted!")
+    }
+
+    await auth.api.resetPasswordEmailOTP({
+        body : {
+            email,
+            otp, 
+            password: newPassword
+        }
+    })
+
+    //  after the password change the other logins will be cleared for security purpose
+    await prisma.session.deleteMany({
+        where : {
+            userId: isUserExist.id
+        }
+    })
+
+
+}
+
+
 
 
 export const AuthService = {
@@ -344,5 +412,7 @@ export const AuthService = {
     getNewToken,
     changePassworrd,
     logoutUser,
-    verifyEmail
+    verifyEmail,
+    forgetPassword,
+    resetPassword
 }

@@ -56,7 +56,23 @@ zod is required for:
 2. put/patch/update something
 
 
-fifa break
+docto1
+{
+   "email": "nayeemurSurgon@gmail.com",
+   "password": "Doctor@123"
+}
+
+patient1
+ {
+    "email" : "prince117@gmail.com",
+    "password" : "asdf123456" 
+ }
+
+patient2
+{
+    "email" : "princemahmood2025@gmail.com",
+    "password" : "asdf1234" 
+}
 
 
 

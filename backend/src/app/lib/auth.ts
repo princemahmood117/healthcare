@@ -67,6 +67,7 @@ plugins: [
         overrideDefaultEmailVerification : true,
         async sendVerificationOTP({email, otp, type}) {
 
+            // type = forget password
             if(type === "email-verification") {
                 const user = await prisma.user.findUnique({
                     where : {
@@ -86,6 +87,29 @@ plugins: [
                         }
                     })
                 }
+            }
+
+            
+            // type = forget password
+            else if(type === "forget-password") {
+                const user = await prisma.user.findUnique({
+                    where : {
+                        email
+                    }
+                })
+                if(user) {
+                    sendEmail({
+                        to : email,
+                        subject : "Password reset OTP",
+                        templateName : "otp",
+                        templateData : {
+                            name: user.name,
+                            otp
+                        }
+
+                    })
+                }
+
             }
 
         },

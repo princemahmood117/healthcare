@@ -90,8 +90,8 @@ npm run dev
 Create a `.env` file in the root directory with the following variables:
 
 ```env
-PORT=5000
-NODE_ENV=development
+PORT=
+NODE_ENV=
 
 DATABASE_URL="database url"
 
