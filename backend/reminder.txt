@@ -62,6 +62,14 @@ docto1
    "password": "Doctor@123"
 }
 
+docto2
+{
+   "email": "sarah.ahmed@example.com",
+   "password": "Doctor123"
+}
+
+
+
 patient1
  {
     "email" : "prince117@gmail.com",
@@ -71,10 +79,21 @@ patient1
 patient2
 {
     "email" : "princemahmood2025@gmail.com",
-    "password" : "asdf1234" 
+    "password" : "asdf123456" 
 }
 
 
 
+Admin1
+{
+	"email" : "john.doe@example.com",
+	"password" : "Admin@123"
+}
 
 
+
+Admin2
+{
+	"email" : "princemahmood117@gmail.com",
+	"password" : "Admin123"
+}
