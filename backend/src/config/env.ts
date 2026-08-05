@@ -15,6 +15,10 @@ interface EnvConfig {
   REFRESH_TOKEN_EXPIRES_IN:string,
   BETTER_AUTH_SESSION_EXPIRES_IN: string,
   BETTER_AUTH_SESSION_TOKEN_UPDATE_AGE: string,
+  GOOGLE_CLIENT_ID: string,
+  GOOGLE_CLIENT_SECRET : string,
+  GOOGLE_CALLBACK_URL : string,
+  FRONTEND_URL : string,
 
   EMAIL_SENDER : {
     SMTP_USER : string,
@@ -46,6 +50,10 @@ const loadEnvVariables = (): EnvConfig => {
     "EMAIL_SENDER_SMTP_HOST",
     "EMAIL_SENDER_SMTP_PORT",
     "EMAIL_SENDER_SMTP_FROM",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GOOGLE_CALLBACK_URL",
+    "FRONTEND_URL",
   ];
 
   envVariableCheck.forEach((variable) => {
@@ -89,7 +97,15 @@ const loadEnvVariables = (): EnvConfig => {
         SMTP_PORT: process.env.EMAIL_SENDER_SMTP_PORT as string,
 
         SMTP_FROM: process.env.EMAIL_SENDER_SMTP_FROM as string,
-    }
+    },
+
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID as string,
+
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET as string,
+    
+    GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL as string,
+
+    FRONTEND_URL:  process.env.FRONTEND_URL as string
 
   };
 };
