@@ -267,6 +267,18 @@ const changePassworrd = async(payload:IChangePasswordChange, sessionToken:string
     })
 
 
+    if(session.user.needPasswordChange) {
+        await prisma.user.update({
+        where : {
+            id : session.user.id
+        },
+        data : {
+            needPasswordChange : false
+        }
+    })
+    }
+
+
     const accessToken = tokenUtiles.getAccessToken({
         userId: session.user.id,
         role: session.user.role,
@@ -299,6 +311,8 @@ const changePassworrd = async(payload:IChangePasswordChange, sessionToken:string
 
 
 
+
+
 const logoutUser = async (sessionToken:string) => {
 
     const result = await auth.api.signOut({
@@ -309,6 +323,8 @@ const logoutUser = async (sessionToken:string) => {
 
     return result;
 }
+
+
 
 
 
