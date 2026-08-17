@@ -50,6 +50,7 @@ project setup done
 packages initialized done
 better-auth initizlized done
 env.ts file configured
+yessssssss
 
 zod is required for:
 1. create/post something
