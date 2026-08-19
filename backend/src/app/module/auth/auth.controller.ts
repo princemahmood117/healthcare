@@ -6,6 +6,7 @@ import status from "http-status";
 import { tokenUtiles } from "../../utils/token";
 import AppError from "../../errorHelpers/AppError";
 import { cookieUtils } from "../../utils/cookie";
+import { envVerse } from "../../../config/env";
 
 // catchAsync is called using a function as parameter
 const registerPatient = catchAsync (async(req:Request, res:Response) => {
@@ -204,9 +205,19 @@ const resetPassword = catchAsync(async(req, res) => {
 }) 
 
 
-
+// route - /api/v1/auth/login/google?redirect=/profile
 const googleLogin = catchAsync(async(req, res) => {
-    
+
+    const redirect = req.query.redirect || "/" ;
+
+    const encodedRedirectPath = encodeURIComponent(redirect as string);
+    const callbackURL = `${envVerse.BETTER_AUTH_URL}/api/v1/auth/google/success?redirect=${encodedRedirectPath}`  // will to to google-Login-Success
+
+    res.render("googleRedirect", {
+        callbackURL: callbackURL,
+        betterAuthUrl : envVerse.BETTER_AUTH_URL,
+    })
+
 })
 
 
