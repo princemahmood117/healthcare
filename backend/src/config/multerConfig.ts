@@ -1,0 +1,34 @@
+import {CloudinaryStorage} from "multer-storage-cloudinary"
+import { cloudinaryUpload } from "./cloudinaryConfig"
+import multer from "multer"
+
+const storage = new CloudinaryStorage({
+    cloudinary : cloudinaryUpload,
+    params : async(req, file) => {
+        console.log("File: ", file);
+        
+        const originalName = file.originalname;
+        console.log("Original File Name :", originalName);
+
+        const extension = originalName.split(".").pop()?.toLowerCase()  // splited by 'dot' > removes the last item of array > convert to lowercase 
+
+        // eslint-disable-next-line no-useless-escape
+        const fileNameWithoutExtension = originalName.split(".").slice(0,-1).join(".").toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9\-]/g, "")
+
+
+        const uniqueName = Math.random().toString(36).substring(2) + "-" + Date.now() + fileNameWithoutExtension;
+
+
+        const folder = extension === "pdf" ? "pdfs" : "images";
+
+        return {
+            folder : `healthCare/${folder}`,
+            public_id : uniqueName,
+            resource_type : "auto"
+        }
+
+    },
+
+})
+
+export const multerUpload = multer({storage})
