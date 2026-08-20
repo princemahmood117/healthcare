@@ -7,6 +7,7 @@ import { tokenUtiles } from "../../utils/token";
 import AppError from "../../errorHelpers/AppError";
 import { cookieUtils } from "../../utils/cookie";
 import { envVerse } from "../../../config/env";
+import { auth } from "../../lib/auth";
 
 // catchAsync is called using a function as parameter
 const registerPatient = catchAsync (async(req:Request, res:Response) => {
@@ -211,7 +212,7 @@ const googleLogin = catchAsync(async(req, res) => {
     const redirect = req.query.redirect || "/" ;
 
     const encodedRedirectPath = encodeURIComponent(redirect as string);
-    const callbackURL = `${envVerse.BETTER_AUTH_URL}/api/v1/auth/google/success?redirect=${encodedRedirectPath}`  // will to to google-Login-Success
+    const callbackURL = `${envVerse.BETTER_AUTH_URL}/api/v1/auth/google/success?redirect=${encodedRedirectPath}`  // will go to google-Login-Success
 
     res.render("googleRedirect", {
         callbackURL: callbackURL,
@@ -223,11 +224,48 @@ const googleLogin = catchAsync(async(req, res) => {
 
 const googleLoginSuccess = catchAsync(async(req, res) => {
 
+    const redirectPath = req.query.redirect as string || "/" ;
+
+    const sessionToken = req.cookies["better-auth.session_token"];
+
+    if(!sessionToken) {
+        return res.redirect(`${envVerse.FRONTEND_URL}/login?error=oauth_failed`);
+    }
+    const session = await auth.api.getSession({
+        headers : {
+            "Cookie" : `better-auth.session_token=${sessionToken}`
+        }
+    });
+
+    if(!session) {
+        return res.redirect(`${envVerse.FRONTEND_URL}/login?error=session_not_found`);
+    }
+
+    if(session && !session.user) {
+        return res.redirect(`${envVerse.FRONTEND_URL}/login?error=no_user_found`);
+    }
+
+    const result = await AuthService.googleLoginSuccess(session)
+
+    const {accessToken, refreshToken} = result;
+
+    tokenUtiles.setAccessTokenCookie(res, accessToken)
+    tokenUtiles.setRefreshTokenCookie(res, refreshToken);
+
+    const isValidRedirectPath = redirectPath.startsWith("/") && !redirectPath.startsWith("//");
+
+    const finalRedirectPath = isValidRedirectPath ? redirectPath : "/dashboard";
+
+    res.redirect(`${envVerse.FRONTEND_URL}${finalRedirectPath}`)
+
 })
 
 
-const handleOAuthError = catchAsync(async(req, res) => {
 
+// if any error from google
+const handleOAuthError = catchAsync(async(req, res) => {
+    const error = req.query.error as string || "oauth_failed" ;
+    res.redirect(`${envVerse.FRONTEND_URL}/login/error=${error}`);
 })
 
 

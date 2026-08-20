@@ -18,15 +18,15 @@
         async () => {
             try {
                 
-                const response = await fetch("<% betterAuthUrl %>/api/auth/sign-in/social", {
+                const response = await fetch("<%= betterAuthUrl %>/api/auth/sign-in/social", {
                     method : 'POST',
                     headers : {
                         "Content-Type" : "application/json"
                     },
-                    credentials : true,
+                    credentials : "include",
                     body : JSON.stringify({
                             provider : "google",
-                            callbackURL : "<% callbackURL %>" 
+                            callbackURL : "<%= callbackURL %>" 
 
                         })
                     }

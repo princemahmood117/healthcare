@@ -45,8 +45,10 @@ export const auth = betterAuth({
     },
 
     // redirectURLs : {
-    //     signIn : ""
+    //     signIn : `${envVerse.BETTER_AUTH_URL}/api/v1/auth/google/success`
     // },
+
+    trustedOrigins : [process.env.BETTER_AUTH_URL || "https://localhost:5000", envVerse.FRONTEND_URL],
 
 
     user: {
@@ -78,7 +80,7 @@ export const auth = betterAuth({
             deletedAt : {
                 type: "date",
                 required: false,
-                defaultValue: new Date()
+                defaultValue: null
             },
         }
     },
