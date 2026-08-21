@@ -12,12 +12,14 @@ const createSpeciality = catchAsync(
   // this is the actual controller sent as parameter in "catchAsync"
   async (req:Request, res: Response) => {
     const payload = req.body;
-    const result = await SpecialityService.createSpeciality(payload)
+    console.log("Request body of create speciality : ",payload);
+    
+    // const result = await SpecialityService.createSpeciality(payload)
     sendReponse(res, {
       httpStatusCode:201,
       success:true,
       message: "Speciality created",
-      data:result
+      // data:result
     })
   }
 )

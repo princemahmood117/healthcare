@@ -57,13 +57,13 @@ zod is required for:
 2. put/patch/update something
 
 
-docto1
+doctor1
 {
    "email": "nayeemurSurgon@gmail.com",
    "password": "Doctor@123"
 }
 
-docto2
+doctor2
 {
    "email": "sarah.ahmed@example.com",
    "password": "Doctor123"
