@@ -11,15 +11,18 @@ import { sendReponse } from "../../shared/sendResponse";
 const createSpeciality = catchAsync(
   // this is the actual controller sent as parameter in "catchAsync"
   async (req:Request, res: Response) => {
-    const payload = req.body;
-    console.log("Request body of create speciality : ",payload);
+
+    const payload = {
+      ...req.body, 
+      icon: req.file?.path
+    };    
     
-    // const result = await SpecialityService.createSpeciality(payload)
+    const result = await SpecialityService.createSpeciality(payload)
     sendReponse(res, {
       httpStatusCode:201,
       success:true,
       message: "Speciality created",
-      // data:result
+      data:result
     })
   }
 )
