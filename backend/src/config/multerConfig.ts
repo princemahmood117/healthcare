@@ -4,11 +4,10 @@ import multer from "multer"
 
 const storage = new CloudinaryStorage({
     cloudinary : cloudinaryUpload,
+
     params : async(req, file) => {
-        console.log("File: ", file);
         
-        const originalName = file.originalname;
-        console.log("Original File Name :", originalName);
+        const originalName = file.originalname;        
 
         const extension = originalName.split(".").pop()?.toLowerCase()  // splited by 'dot' > picks the last item of array > convert to lowercase 
 
