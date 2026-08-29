@@ -1,7 +1,7 @@
 resume :40-2, 11;13
 		    ----- project analysis algorithm -----
 
-query builder : helps to manage queries in database
+query builder : helps to manage queries in database............
 
 (1) total users (4): Super_Admin(SA), Admin, Doctor, Patient
 
