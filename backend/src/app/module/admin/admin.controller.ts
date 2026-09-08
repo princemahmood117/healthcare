@@ -16,6 +16,7 @@ const getAllAdmins = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
+// this is get all admin
 
 const getAdminByID = catchAsync(async(req: Request, res: Response) => {
     const {id} = req.params;
