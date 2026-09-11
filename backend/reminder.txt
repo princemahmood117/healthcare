@@ -3,6 +3,8 @@ resume :40-2, 11;13
 
 query builder : helps to manage queries in database............
 
+thiis is the query builder class
+
 (1) total users (4): Super_Admin(SA), Admin, Doctor, Patient
 
 -> super_admin/admin will be created by 'seeding'
