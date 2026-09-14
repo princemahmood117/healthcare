@@ -6,7 +6,7 @@ import { IQueryConfig, IQueryParams, PrismaCountArgs, PrismaFindManyArgs, prisma
 //  T = model ; 
 export class QueryBuilder <
 T,
-TWhereInput = Record<string, unknown>,   // string = field, unknown = oi field er value
+TWhereInput = Record<string, unknown>,   // string = object nanme, unknown = object's value
 TInclude = Record<string, unknown>
 
 > {
@@ -37,6 +37,13 @@ TInclude = Record<string, unknown>
         this.countQuery = {
             where : {},            
         }
+    }
+
+    search() : this {
+        const {searchTerm} = this.queryParams;
+        const {searchableFields} = this.config;
+
+        
     }
 
 
