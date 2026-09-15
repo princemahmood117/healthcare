@@ -101,3 +101,48 @@ Admin2
 	"email" : "princemahmood117@gmail.com",
 	"password" : "Admin123"
 }
+
+
+
+
+
+
+
+================= Basic Class ================
+
+class Student {
+    // using constructor, we initialize the parameter value to "this.name" while caliling the class 
+    constructor(name, age) {
+        console.log("this is only 'this' which is an empty object :", this, "\n");
+
+        this.name = name;
+        this.age = age;
+        console.log("name came from the new Student() call :", name );
+        console.log("name is set to this.name : ", this.name);
+    }
+}
+
+const stu1 = new Student("Piyal", 20)
+console.log("\n","this is an object from the Class Student : ", stu1, "\n");
+
+
+
+class Car {    
+    // without constructor, we need to use "stu2.name" to initialize the value while calling the class
+}
+
+const stu2 = new Car()
+stu2.name = "Toyota";
+stu2.country = "Japan"
+stu2.year = 1990;
+
+console.log("this Car object is created without constrctor : ", stu2, "\n");
+
+
+const objs = {
+    name : "tanvir",
+    age : 30,
+    address : "Donia" 
+}
+
+console.log("manual object created : ", objs, "\n");
