@@ -144,5 +144,5 @@ const objs = {
     age : 30,
     address : "Donia" 
 }
-
+..............
 console.log("manual object created : ", objs, "\n");
