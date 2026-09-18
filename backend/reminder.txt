@@ -2,7 +2,7 @@ resume :40-2, 11;13
 constructors for the class QueryBuilder
 learning basics of query builder from conceptual
 
-without the class, working with the queries
+without the class, working with the queries to understand
 		    ----- project analysis algorithm -----
 
 
