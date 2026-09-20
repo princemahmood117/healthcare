@@ -3,7 +3,7 @@ constructors for the class QueryBuilder
 learning basics of query builder from conceptual
 
 without the class, working with the queries to understand
-backend code
+backend code for the query
 		    ----- project analysis algorithm -----
 
 
