@@ -43,12 +43,12 @@ export class QueryBuilder<
     };
   }
 
+  // Searching
   search(): this {
     const { searchTerm } = this.queryParams;
     const { searchableFields } = this.config;
 
     // handle nesting
-
     if (searchTerm && searchableFields && searchableFields.length > 0) {
       const searchConditions: Record<string, unknown>[] = searchableFields.map((field) => {
 
@@ -116,4 +116,52 @@ export class QueryBuilder<
 
     return this;
   }
+
+  
+
+  // Filtering
+
+  filter() : this {
+
+    const {filterableFields} = this.config;
+
+    //  Ei jinish gula thakbe na filter object e
+    const excludedFields = ["searchTerm", "page", "limit", "sortBy", "sortOrder", "fields", "includes"];
+
+    const filterParams : Record<string, unknown> = {};
+    
+    // Object.keys = Object er shob keys gular array
+    Object.keys(this.queryParams).forEach((key) => {
+      if(!excludedFields.includes(key)) {
+        filterParams[key] = this.queryParams[key]
+      }
+    })
+
+    const queryWhere = this.query.where as Record<string, unknown>;
+
+    const countQueryWhere = this.countQuery.where as Record<string, unknown>;
+
+
+    Object.keys(filterParams).forEach((key) => {
+      const value = filterParams[key];
+
+      if(value === undefined || value === "") {
+        return;
+      }
+
+      const isAllowedFields = !filterableFields || filterableFields.length === 0 || filterableFields.includes(key)
+
+      if(!isAllowedFields) {
+        return;
+      }
+
+
+      
+    })
+
+    return this;
+
+  } 
+
+
 }
