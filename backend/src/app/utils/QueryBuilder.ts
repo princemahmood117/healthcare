@@ -156,7 +156,59 @@ export class QueryBuilder<
       }
 
 
-      
+      // handle nesting part
+      // /doctors?user.name=john => {user : {name : "john"}}
+      if(key.includes(".")) {
+        const parts = key.split(".");
+
+        // if the query has 2 layers nested
+        if(parts.length === 2) {
+          const [relation, nestedField] = parts;  // relation = user, nestedField = name
+
+          queryWhere[relation] = {  // user = name : "john" 
+            [nestedField] : value
+          }
+
+          countQueryWhere[relation] = {
+            [nestedField] : value
+          }
+        } 
+        
+        // if the query has 3 layers nested
+        else if (parts.length === 3) {
+          const [relation, nestedRelation, nestedField] = parts;
+
+          queryWhere[relation] = {
+            [nestedRelation] : {
+              [nestedField] : value
+            }
+          };
+
+          countQueryWhere[relation] = {
+            [nestedRelation] : {
+              [nestedField] : value
+            }
+          }
+
+        };
+
+      }
+
+      // without nesting
+      else {
+        queryWhere[key] = value;
+        countQueryWhere[key] = value;
+      }
+
+
+      if(typeof value === 'object' && value != null && !Array.isArray(value)) {
+        queryWhere[key] = {
+          
+        }
+      }
+
+
+
     })
 
     return this;

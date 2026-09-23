@@ -7,6 +7,7 @@ backend code for the query
 query builder broken down
 
 search done
+filtering part
 		    ----- project analysis algorithm -----
 
 
