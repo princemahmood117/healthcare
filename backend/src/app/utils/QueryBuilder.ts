@@ -44,6 +44,8 @@ export class QueryBuilder<
     };
   }
 
+
+
   // Searching
   search(): this {
     const { searchTerm } = this.queryParams;
@@ -116,7 +118,7 @@ export class QueryBuilder<
     }
 
     return this;
-  }
+  };
 
 
   // Filtering
@@ -238,7 +240,8 @@ export class QueryBuilder<
 
     return this;
 
-  } 
+  };
+
 
 
   paginate() : this {
@@ -256,6 +259,7 @@ export class QueryBuilder<
 
     return this;
   };
+
 
 
   sort() : this {
@@ -301,6 +305,7 @@ export class QueryBuilder<
   };
 
 
+
   fields() : this {
 
     const fieldsParams = this.queryParams.fields;
@@ -321,9 +326,71 @@ export class QueryBuilder<
 
     delete this.query.include;    
   }
-  
+
   return this;
+  };
+
+
+
+  include(relation : TInclude) : this {
+
+    if(this.selectedFields) {
+      return this;
+    }
+
+    // if 'fields' method is used, 'include' method will be ignored to prevent the conflict between select and include
+    this.query.include = {
+      ...(this.query.include as Record<string, unknown>), 
+      ...(relation as Record<string, unknown>)
+    };
+
+    return this;
+  };
+
+
+
+  dynamicInclude(includeConfig : Record<string, unknown>, defaultInclude? : string[]) : this {
+
+
+    if(this.selectedFields) {
+      return this;
+    };
+
+    const result : Record<string, unknown> = {};
+
+    defaultInclude?.forEach((field) => {
+      if(includeConfig[field]) {
+
+        result[field] = includeConfig[field]
+
+      }
+    })
+
+
+    const includeParam = this.queryParams.includes as string | undefined;
+    
+    if(includeParam && typeof includeParam === 'string') {
+
+      const requestedRelations = includeParam.split(",").map((relation) => relation.trim());
+
+      requestedRelations.forEach((relation) => {
+
+        if(includeConfig[relation]) {
+          result[relation] = includeConfig[relation]
+        }
+      })
+    }
+
+
+    this.query.include = {
+      ...(this.query.include as Record<string, unknown>),
+      ...result
+    };
+
+    return this;
   }
+
+
 
 
   private parseFilterValue(value : unknown) : unknown {
