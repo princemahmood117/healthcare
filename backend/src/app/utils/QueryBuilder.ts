@@ -24,7 +24,7 @@ export class QueryBuilder<
   private sortBy: string = "createdAt";
   private sortOrder: "asc" | "desc" = "desc";
 
-  private selectedFields: Record<string, boolean | undefined>;
+  private selectedFields: Record<string, boolean | undefined> = {};
 
   constructor(
     private model: prismaModelDelegate,
@@ -303,8 +303,26 @@ export class QueryBuilder<
 
   fields() : this {
 
+    const fieldsParams = this.queryParams.fields;
 
-    return this;
+    if(fieldsParams && typeof fieldsParams === 'string') {
+
+    const fieldsArray = fieldsParams?.split(",").map((field) => field.trim());
+
+    this.selectedFields = {};
+
+    fieldsArray?.forEach((field) => {
+      if(this.selectedFields) {
+        this.selectedFields[field] = true;
+      }
+    });
+
+    this.query.select = this.selectedFields as Record<string, boolean | Record<string, unknown>>;
+
+    delete this.query.include;    
+  }
+  
+  return this;
   }
 
 

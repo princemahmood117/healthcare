@@ -1,13 +1,5 @@
 resume :40-2, 11;13
-constructors for the class QueryBuilder
-learning basics of query builder from conceptual
 
-without the class, working with the queries to understand
-backend code for the query
-query builder broken down
-
-search done
-filtering part
 		    ----- project analysis algorithm -----
 
 
@@ -60,7 +52,7 @@ project setup done
 packages initialized done
 better-auth initizlized done
 env.ts file configured
-yessssssss
+
 
 zod is required for:
 1. create/post something
