@@ -4,6 +4,7 @@ import {
   PrismaCountArgs,
   PrismaFindManyArgs,
   prismaModelDelegate,
+  PrismaNumberFilter,
   PrismaStringFilter,
   PrismaWhereConditions,
 } from "../interfaces/query.interface";
@@ -117,7 +118,6 @@ export class QueryBuilder<
     return this;
   }
 
-  
 
   // Filtering
 
@@ -161,34 +161,52 @@ export class QueryBuilder<
       if(key.includes(".")) {
         const parts = key.split(".");
 
+        if(filterableFields &&  !filterableFields.includes(key)) {
+          return;
+        }
+
         // if the query has 2 layers nested
         if(parts.length === 2) {
           const [relation, nestedField] = parts;  // relation = user, nestedField = name
 
+          if(!queryWhere[relation]) {
+            queryWhere[relation] = {};
+            countQueryWhere[relation] = {};
+          }
+
           queryWhere[relation] = {  // user = name : "john" 
-            [nestedField] : value
+            [nestedField] : this.parseFilterValue(value)
           }
 
           countQueryWhere[relation] = {
-            [nestedField] : value
-          }
+            [nestedField] : this.parseFilterValue(value)
+          };
+
+          return;
         } 
         
         // if the query has 3 layers nested
         else if (parts.length === 3) {
           const [relation, nestedRelation, nestedField] = parts;
 
+          if(!queryWhere[relation]) {
+            queryWhere[relation] = {};
+            countQueryWhere[relation] = {};
+          }
+
           queryWhere[relation] = {
             [nestedRelation] : {
-              [nestedField] : value
+              [nestedField] : this.parseFilterValue(value)
             }
           };
 
           countQueryWhere[relation] = {
             [nestedRelation] : {
-              [nestedField] : value
+              [nestedField] : this.parseFilterValue(value)
             }
-          }
+          };
+
+          return;
 
         };
 
@@ -198,16 +216,23 @@ export class QueryBuilder<
       else {
         queryWhere[key] = value;
         countQueryWhere[key] = value;
+        return;
       }
 
 
+      // RANGE filter parsing
+      // value jodi object hoy, null na hoy, array na hoy
       if(typeof value === 'object' && value != null && !Array.isArray(value)) {
-        queryWhere[key] = {
-          
-        }
+
+        queryWhere[key] = this.parseRangeFilter(value as Record<string, string | number>);
+
+        countQueryWhere[key] = this.parseRangeFilter(value as Record<string, string | number>);
+        return;
       }
 
-
+      // no nesting, direct value parsing
+      queryWhere[key] = this.parseFilterValue(value);
+      countQueryWhere[key] = this.parseFilterValue(value);
 
     })
 
@@ -215,5 +240,139 @@ export class QueryBuilder<
 
   } 
 
+
+  paginate() : this {
+
+    const page = Number(this.queryParams.page) || 1;
+    const limit = Number(this.queryParams.limit) || 10;  // 1 ta page e koyta kore data dekhabo
+
+    this.page = page;
+    this.limit = limit;
+    this.skip = (page - 1) * limit; // page 2 te prothom 10 ta skip kore porer 10 ta dekhabe, page 3 e prothom 20 ta skip kore baki 10 ta dekhabe
+
+    this.query.skip = this.skip;
+    this.query.take = this.limit;
+
+
+    return this;
+  };
+
+
+  sort() : this {
+
+    const sortBy = this.queryParams.sortBy || "createdAt";
+    const sortOrder = this.queryParams.sortOrder === 'asc' ? 'asc' : 'desc';
+
+    this.sortBy = sortBy;
+    this.sortOrder = sortOrder;
+
+    // /doctors?sortBy=user.name&sortOrder=asc ==> orderBy: {user : {name : 'asc'}} - nested sorting
+
+    if(sortBy.includes(".")) {
+      const parts = sortBy.split(".");
+
+      if(parts.length === 2) {
+        const [relation, nestedField] = parts;
+
+        this.query.orderBy = { 
+          [relation] : {     // {user : {name : 'asc'}}
+            [nestedField] : sortOrder
+          }
+        }
+      } else if(parts.length === 3) {
+        const [relation, nestedRelation, nestedField] = parts;
+
+        this.query.orderBy = {
+          [relation] : {          // {user : {name : {firstName : "asc"}}}
+            [nestedRelation] : {
+              [nestedField] : sortOrder
+            }
+          }
+        }
+
+      } else {
+        this.query.orderBy = {
+          [sortBy] : sortOrder   // value of sortBy : sortOrder (name : "asc")
+        }
+      }
+    };
+
+    return this;
+  };
+
+
+  fields() : this {
+
+
+    return this;
+  }
+
+
+  private parseFilterValue(value : unknown) : unknown {
+    if(value === 'true') {
+
+      return true;
+    };
+
+    if(value === 'false') {
+      return false;
+    }
+
+    if(typeof value === 'string' && !isNaN(Number(value)) && value != "") {
+      return Number(value);
+    }
+
+    if(Array.isArray(value)) {
+      return {
+        in : value.map((item) => this.parseFilterValue(item))  // recursive way to parse
+      }
+    }
+
+    return value;
+  }
+
+
+
+  private parseRangeFilter(value : Record<string, string | number>) : PrismaNumberFilter | PrismaStringFilter | Record<string, unknown> {
+
+    const rangeQuery : Record<string, string | number | (string | number)[]> = {};
+
+    Object.keys(value).forEach((operator) => {
+      const operatorValue = value[operator];
+
+      const parsedValue : string | number = typeof operatorValue === 'string' && !isNaN(Number(operatorValue)) ? Number(operatorValue) : operatorValue;
+
+      switch(operator) {
+        case "lt": 
+        case "lte": 
+        case "gt": 
+        case "gte": 
+        case "equals": 
+        case "not": 
+        case "contains": 
+        case "startsWith": 
+        case "endsWith":
+          rangeQuery[operator] = parsedValue;
+          break;
+        
+
+        case "in":
+        case "notIn":
+          if(Array.isArray(operatorValue)) {
+            rangeQuery[operator] = operatorValue;
+          } else {
+            rangeQuery[operator] = [parsedValue];
+          }
+          break;
+
+          default:
+            break; 
+
+
+      }
+    });
+
+    return Object.keys(rangeQuery).length > 0 ? rangeQuery : value;
+  }
 
 }
