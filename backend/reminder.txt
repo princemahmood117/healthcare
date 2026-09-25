@@ -1,4 +1,5 @@
 resume :40-2, 11;13
+now its time for implement
 
 		    ----- project analysis algorithm -----
 
