@@ -324,6 +324,7 @@ export class QueryBuilder<
 
     this.query.select = this.selectedFields as Record<string, boolean | Record<string, unknown>>;
 
+    // in prisma, cannot use both include and fields together
     delete this.query.include;    
   }
 
@@ -334,6 +335,7 @@ export class QueryBuilder<
 
   include(relation : TInclude) : this {
 
+    // if the selected fields are true then return the THIS from here
     if(this.selectedFields) {
       return this;
     }
