@@ -437,7 +437,7 @@ export class QueryBuilder<
   };
 
 
-  // debugging purpose (sends here the whole object)
+  // for debugging purpose (sends here the whole object)
   getQuery () : PrismaFindManyArgs {
 
     return this.query;
