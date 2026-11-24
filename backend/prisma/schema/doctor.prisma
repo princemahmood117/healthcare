@@ -10,7 +10,8 @@ model Doctor {
     gender              Gender
     appointmentFee      Float
     qualification       String
-    currentWorkingPLace String
+    // currentWorkingPlace String
+    currentWorkingPlace String? @map("currentWorkingPLace")
     designation         String
     averageRating       Float   @default(0.0)
 

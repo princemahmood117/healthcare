@@ -191,42 +191,42 @@ export class QueryBuilder<
         }
 
         // if the query has 3 layers nested
-        else if (parts.length === 3) {
-          const [relation, nestedRelation, nestedField] = parts;
+        // else if (parts.length === 3) {
+        //   const [relation, nestedRelation, nestedField] = parts;
 
-          if (!queryWhere[relation]) {
-            queryWhere[relation] = {};
-            countQueryWhere[relation] = {};
-          }
+        //   if (!queryWhere[relation]) {
+        //     queryWhere[relation] = {};
+        //     countQueryWhere[relation] = {};
+        //   }
 
-          const queryRelation = queryWhere[relation] as Record<string, unknown>;
+        //   const queryRelation = queryWhere[relation] as Record<string, unknown>;
 
-          const countRelation = queryWhere[relation] as Record<string, unknown>;
+        //   const countRelation = queryWhere[relation] as Record<string, unknown>;
 
-          if (!queryRelation[nestedRelation]) {
-            queryRelation[nestedRelation] = {};
-          }
+        //   if (!queryRelation[nestedRelation]) {
+        //     queryRelation[nestedRelation] = {};
+        //   }
 
-          if (!countRelation[nestedRelation]) {
-            countRelation[nestedRelation] = {};
-          }
+        //   if (!countRelation[nestedRelation]) {
+        //     countRelation[nestedRelation] = {};
+        //   }
 
-          const queryNestedRelation = queryRelation[nestedRelation] as Record<
-            string,
-            unknown
-          >;
+        //   const queryNestedRelation = queryRelation[nestedRelation] as Record<
+        //     string,
+        //     unknown
+        //   >;
 
-          const countNestedRelation = countRelation[nestedRelation] as Record<
-            string,
-            unknown
-          >;
+        //   const countNestedRelation = countRelation[nestedRelation] as Record<
+        //     string,
+        //     unknown
+        //   >;
 
-          queryNestedRelation[nestedField] = this.parseFilterValue(value);
+        //   queryNestedRelation[nestedField] = this.parseFilterValue(value);
 
-          countNestedRelation[nestedField] = this.parseFilterValue(value);
+        //   countNestedRelation[nestedField] = this.parseFilterValue(value);
 
-          return;
-        }
+        //   return;
+        // }
       }
 
       if (!isAllowedFields) {
@@ -294,6 +294,7 @@ export class QueryBuilder<
 
         this.query.orderBy = {
           [relation]: {
+            
             // {user : {name : {firstName : "asc"}}}
             [nestedRelation]: {
               [nestedField]: sortOrder,
@@ -305,6 +306,10 @@ export class QueryBuilder<
           [sortBy]: sortOrder, // value of sortBy : sortOrder (name : "asc")
         };
       }
+    } else {
+        this.query.orderBy = {
+          [sortBy]: sortOrder, // value of sortBy : sortOrder (name : "asc")
+        };      
     }
 
     return this;
@@ -426,7 +431,7 @@ export class QueryBuilder<
       }
     });
 
-    const includeParam = this.queryParams.includes as string | undefined;
+    const includeParam = this.queryParams.include as string | undefined;
 
     if (includeParam && typeof includeParam === "string") {
       const requestedRelations = includeParam
@@ -448,7 +453,7 @@ export class QueryBuilder<
     return this;
   }
 
-  // commented where() code
+  // commented old where() code
 
   // where(condition: TWhereInput): this {
   //   this.query.where = this.deepMerge(
@@ -464,7 +469,9 @@ export class QueryBuilder<
   //   return this;
   // }
 
-  // replaced where() code
+
+
+  // replaced ai generated where() code
   where(condition: TWhereInput): this {
     this.query.where = this.deepMerge(
       this.query.where as Record<string, unknown>,
@@ -541,6 +548,8 @@ export class QueryBuilder<
         } else {
           result[key] = source[key];
         }
+      } else {
+        result[key] = source[key];
       }
     }
 
