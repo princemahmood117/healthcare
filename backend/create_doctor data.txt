@@ -1,0 +1,20 @@
+{
+  "password": "Doctor123",
+  "doctor": {
+    "name": "Dr. Tanvir Hossain",
+    "email": "tanvir.hossain@example.com",
+    "profilePhoto": "https://example.com/images/dr-tanvir-hossain.jpg",
+    "contactNumber": "+880177422033",
+    "address": "20/B, Mirpur-12, Dhaka",
+    "registrationNumber": "BMDC-12347",
+    "experience": 12,
+    "gender": "MALE",
+    "appointmentFee": 1200,
+    "qualification": "MBBS, FCPS (Hematology)",
+    "currentWorkingPLace": "United Hospital Ltd.",
+    "designation": "Hematology Specialitst Doctor"
+  },
+  "specialities": [
+    "01a02a95-efe2-7284-ae40-e76be1f54bef"
+  ]
+}
